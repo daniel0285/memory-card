@@ -9,12 +9,20 @@ function App() {
     fetchPokemons(setPokemons);
   }, []);
 
+  function handleClick(e) {
+    const pokemonID = e.target.id;
+    if (!selectedPokemons.includes(pokemonID)) {
+      setSelectedPokemons((curr) => [...curr, pokemonID]);
+      setScore((curr) => curr + 1);
+    }
+  }
+
   return (
     <>
       <h1>Score: {score}</h1>
 
       {pokemons.map((pokemon) => (
-        <button key={pokemon.id} id={pokemon.id}>
+        <button key={pokemon.id} id={pokemon.id} onClick={handleClick}>
           <img
             key={pokemon.id}
             id={pokemon.id}

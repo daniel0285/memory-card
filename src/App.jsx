@@ -10,7 +10,7 @@ function App() {
     fetchPokemons(setPokemons);
   }, []);
 
-  function handleClick(e) {
+  function handleCardClick(e) {
     const pokemonID = e.target.id;
     if (!selectedPokemons.includes(pokemonID)) {
       setSelectedPokemons((curr) => [...curr, pokemonID]);
@@ -21,13 +21,27 @@ function App() {
     }
   }
 
+  function handlePlayAgain() {
+    console.log("play again");
+    setIsGameOver(false);
+    setScore(0);
+    setSelectedPokemons([]);
+    setPokemons((curr) => shuffle(curr));
+  }
+
   return (
     <>
       <h1>Score: {score}</h1>
 
-      {isGameOver && <h1>Game over</h1>}
+      {isGameOver && score !== 10 ? <h1>Game over</h1> : <h1>You won</h1>}
+      {isGameOver && <button onClick={handlePlayAgain}>Play again</button>}
       {pokemons.map((pokemon) => (
-        <button key={pokemon.id} id={pokemon.id} onClick={handleClick}>
+        <button
+          key={pokemon.id}
+          id={pokemon.id}
+          onClick={handleCardClick}
+          disabled={isGameOver && true}
+        >
           <img
             key={pokemon.id}
             id={pokemon.id}

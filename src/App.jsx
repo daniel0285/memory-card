@@ -4,6 +4,7 @@ function App() {
   const [pokemons, setPokemons] = useState([]);
   const [selectedPokemons, setSelectedPokemons] = useState([]);
   const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false);
 
   useEffect(() => {
@@ -18,6 +19,8 @@ function App() {
       setPokemons((curr) => shuffle(curr));
     } else {
       setIsGameOver(true);
+      setSelectedPokemons([]);
+      setHighScore((curr) => (curr < score ? score : curr));
     }
   }
 
@@ -31,16 +34,18 @@ function App() {
 
   return (
     <>
+      <h1>High score: {highScore}</h1>
       <h1>Score: {score}</h1>
 
-      {isGameOver && score !== 10 ? <h1>Game over</h1> : <h1>You won</h1>}
+      {isGameOver && <h1>Game over</h1>}
+      {isGameOver || (score === 10 && <h1>You won</h1>)}
       {isGameOver && <button onClick={handlePlayAgain}>Play again</button>}
       {pokemons.map((pokemon) => (
         <button
           key={pokemon.id}
           id={pokemon.id}
           onClick={handleCardClick}
-          disabled={isGameOver && true}
+          disabled={isGameOver || (score === 10 && true)}
         >
           <img
             key={pokemon.id}

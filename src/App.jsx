@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Cards } from "./components/Cards";
 
 function App() {
   const [pokemons, setPokemons] = useState([]);
@@ -47,22 +48,12 @@ function App() {
       {isGameOver || (score === 10 && <h1>You won</h1>)}
       {isGameOver && <button onClick={handlePlayAgain}>Play again</button>}
 
-      {pokemons.map((pokemon) => (
-        <button
-          key={pokemon.id}
-          id={pokemon.id}
-          onClick={handleCardClick}
-          disabled={isGameOver || (score === 10 && true)}
-        >
-          <img
-            key={pokemon.id}
-            id={pokemon.id}
-            src={pokemon.img}
-            alt={pokemon.name}
-          />
-          <p>{pokemon.name}</p>
-        </button>
-      ))}
+      <Cards
+        array={pokemons}
+        handleClick={handleCardClick}
+        isGameOver={isGameOver}
+        score={score}
+      />
     </>
   );
 }

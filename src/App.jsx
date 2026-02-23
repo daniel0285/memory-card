@@ -6,16 +6,21 @@ function App() {
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    fetchPokemons(setPokemons);
+    fetchPokemons(setPokemons, setIsLoading);
   }, []);
 
   function handleCardClick(e) {
     const pokemonID = e.target.id;
     if (!selectedPokemons.includes(pokemonID)) {
       setSelectedPokemons((curr) => [...curr, pokemonID]);
-      setScore((curr) => curr + 1);
+      setScore((prevScore) => {
+        const newScore = prevScore + 1;
+        setHighScore((prevHigh) => (prevHigh < newScore ? newScore : prevHigh));
+        return newScore;
+      });
       setPokemons((curr) => shuffle(curr));
     } else {
       setIsGameOver(true);
@@ -37,9 +42,11 @@ function App() {
       <h1>High score: {highScore}</h1>
       <h1>Score: {score}</h1>
 
+      {isLoading && <h1>Loading</h1>}
       {isGameOver && <h1>Game over</h1>}
       {isGameOver || (score === 10 && <h1>You won</h1>)}
       {isGameOver && <button onClick={handlePlayAgain}>Play again</button>}
+
       {pokemons.map((pokemon) => (
         <button
           key={pokemon.id}
@@ -84,10 +91,11 @@ function shuffle(array) {
   return array;
 }
 
-async function fetchPokemons(setState) {
+async function fetchPokemons(setState, setIsLoading) {
   const pokemonID = getRandomID();
 
   try {
+    setIsLoading(true);
     const pokemonList = await Promise.all(
       pokemonID.map(async (id) => {
         const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
@@ -100,7 +108,7 @@ async function fetchPokemons(setState) {
         };
       }),
     );
-
+    setIsLoading(false);
     setState(pokemonList);
   } catch (error) {
     alert(error);

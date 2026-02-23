@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Cards } from "./components/Cards";
+import { Button } from "./components/Button";
 
 function App() {
   const [pokemons, setPokemons] = useState([]);
@@ -46,7 +47,9 @@ function App() {
       {isLoading && <h1>Loading</h1>}
       {isGameOver && <h1>Game over</h1>}
       {isGameOver || (score === 10 && <h1>You won</h1>)}
-      {isGameOver && <button onClick={handlePlayAgain}>Play again</button>}
+      {isGameOver && (
+        <Button clickHandler={handlePlayAgain}>Play Again?</Button>
+      )}
 
       <Cards
         array={pokemons}

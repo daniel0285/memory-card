@@ -40,25 +40,36 @@ function App() {
   }
 
   return (
-    <>
-      <h1 className='text-3xl font-bold underline'>Memory Card</h1>
-      <h2>High score: {highScore}</h2>
-      <h2>Score: {score}</h2>
+    <main className='h-full font-[pokemon-classic]'>
+      <header className='flex justify-center items-center bg-[#FFCB05] p-5'>
+        <img
+          className='h-10 md:h-15 w-auto'
+          src='dist/assets/img/pokemon-memory-card.png'
+          alt='Pokemon Memory Card'
+        />
+      </header>
+      <section className='flex flex-row flex-wrap w-full gap-4 justify-evenly p-5 text-md font-bold'>
+        <h2>High score: {highScore}</h2>
+        <h2>Score: {score}</h2>
+      </section>
 
       {isLoading && <h1>Loading</h1>}
+
       {isGameOver && <h1>Game over</h1>}
       {isGameOver || (score === 10 && <h1>You won</h1>)}
       {isGameOver && (
         <Button clickHandler={handlePlayAgain}>Play Again?</Button>
       )}
 
-      <Cards
-        array={pokemons}
-        handleClick={handleCardClick}
-        isGameOver={isGameOver}
-        score={score}
-      />
-    </>
+      <section className='flex justify-center gap-5 flex-wrap p-5'>
+        <Cards
+          array={pokemons}
+          handleClick={handleCardClick}
+          isGameOver={isGameOver}
+          score={score}
+        />
+      </section>
+    </main>
   );
 }
 
@@ -99,7 +110,7 @@ async function fetchPokemons(setState, setIsLoading) {
         return {
           name: data.name,
           id,
-          img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
+          img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
         };
       }),
     );

@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: "pokemon-hollow";
+  font-style: normal;
+  font-weight: 200 700;
+  font-display: swap;
+  src: url(/dist/assets/fonts/Pokemon\ Hollow.ttf);
+}
+
+@font-face {
+  font-family: "pokemon-solid";
+  font-display: swap;
+  src: url(/dist/assets/fonts/Pokemon\ Solid.ttf);
+}
+
+@font-face {
+  font-family: "pokemon-classic";
+  font-display: swap;
+  src: url(/dist/assets/fonts/Pokemon\ Classic.ttf);
+}

@@ -41,8 +41,9 @@ function App() {
 
   return (
     <>
-      <h1>High score: {highScore}</h1>
-      <h1>Score: {score}</h1>
+      <h1 className='text-3xl font-bold underline'>Memory Card</h1>
+      <h2>High score: {highScore}</h2>
+      <h2>Score: {score}</h2>
 
       {isLoading && <h1>Loading</h1>}
       {isGameOver && <h1>Game over</h1>}

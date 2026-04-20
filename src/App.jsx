@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Cards } from "./components/Cards";
 import { Button } from "./components/Button";
+import { Modal } from "./components/Modal";
 
 function App() {
   const [pokemons, setPokemons] = useState([]);
@@ -9,6 +10,7 @@ function App() {
   const [highScore, setHighScore] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     fetchPokemons(setPokemons, setIsLoading);
@@ -18,50 +20,59 @@ function App() {
     const pokemonID = e.target.id;
     if (!selectedPokemons.includes(pokemonID)) {
       setSelectedPokemons((curr) => [...curr, pokemonID]);
+
       setScore((prevScore) => {
         const newScore = prevScore + 1;
+
+        if (newScore === 10) {
+          setIsGameOver(true);
+          setModal(true);
+          setSelectedPokemons([]);
+        }
         setHighScore((prevHigh) => (prevHigh < newScore ? newScore : prevHigh));
         return newScore;
       });
       setPokemons((curr) => shuffle(curr));
     } else {
       setIsGameOver(true);
+      setModal(true);
       setSelectedPokemons([]);
       setHighScore((curr) => (curr < score ? score : curr));
     }
   }
 
   function handlePlayAgain() {
-    console.log("play again");
     setIsGameOver(false);
     setScore(0);
     setSelectedPokemons([]);
     setPokemons((curr) => shuffle(curr));
+    setModal(false);
   }
 
   return (
     <main className='h-full font-[pokemon-classic]'>
       <header className='flex justify-center items-center bg-[#FFCB05] p-5'>
         <img
-          className='h-10 md:h-15 w-auto'
+          className='w-auto h-10 md:h-15'
           src='dist/assets/img/pokemon-memory-card.png'
           alt='Pokemon Memory Card'
         />
       </header>
-      <section className='flex flex-row flex-wrap w-full gap-4 justify-evenly p-5 text-md font-bold'>
+      <section className='flex flex-row flex-wrap w-full gap-4 p-5 font-bold justify-evenly text-md'>
         <h2>High score: {highScore}</h2>
         <h2>Score: {score}</h2>
       </section>
 
       {isLoading && <h1>Loading</h1>}
+      <Modal openModal={modal} closeModal={() => setModal(false)}>
+        {isGameOver && <h1>Game over</h1>}
+        {isGameOver || (score === 10 && <h1>You won</h1>)}
+        {isGameOver && (
+          <Button clickHandler={handlePlayAgain}>Play Again?</Button>
+        )}
+      </Modal>
 
-      {isGameOver && <h1>Game over</h1>}
-      {isGameOver || (score === 10 && <h1>You won</h1>)}
-      {isGameOver && (
-        <Button clickHandler={handlePlayAgain}>Play Again?</Button>
-      )}
-
-      <section className='flex justify-center gap-5 flex-wrap p-5'>
+      <section className='flex flex-wrap justify-center gap-5 p-5'>
         <Cards
           array={pokemons}
           handleClick={handleCardClick}

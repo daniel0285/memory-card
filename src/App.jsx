@@ -63,15 +63,18 @@ function App() {
         <h2>Score: {score}</h2>
       </section>
 
-      {isLoading && <h1>Loading</h1>}
-      <Modal openModal={modal} closeModal={() => setModal(false)}>
-        {isGameOver && <h1>Game over</h1>}
-        {isGameOver || (score === 10 && <h1>You won</h1>)}
-        {isGameOver && (
-          <Button clickHandler={handlePlayAgain}>Play Again?</Button>
-        )}
-      </Modal>
-
+      {isLoading && (
+        <h1 className='text-2xl font-bold text-center'>Loading...</h1>
+      )}
+      {isGameOver && (
+        <Modal openModal={modal} closeModal={() => setModal(false)}>
+          {isGameOver && <h1 className='text-xl font-bold'>Game over</h1>}
+          {isGameOver || (score === 10 && <h1>You won</h1>)}
+          {isGameOver && (
+            <Button clickHandler={handlePlayAgain}>Play Again?</Button>
+          )}
+        </Modal>
+      )}
       <section className='flex flex-wrap justify-center gap-5 p-5'>
         <Cards
           array={pokemons}

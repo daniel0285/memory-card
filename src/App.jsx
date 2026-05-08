@@ -54,7 +54,7 @@ function App() {
       <header className='flex justify-center items-center bg-[#FFCB05] p-5'>
         <img
           className='w-auto h-10 md:h-15'
-          src='dist/assets/img/pokemon-memory-card.png'
+          src='src/assets/img/pokemon-memory-card.png'
           alt='Pokemon Memory Card'
         />
       </header>

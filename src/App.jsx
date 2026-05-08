@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Cards } from "./components/Cards";
 import { Button } from "./components/Button";
 import { Modal } from "./components/Modal";
+import pokemonCard from "./assets/img/pokemon-memory-card.png";
 
 function App() {
   const [pokemons, setPokemons] = useState([]);
@@ -54,7 +55,7 @@ function App() {
       <header className='flex justify-center items-center bg-[#FFCB05] p-5'>
         <img
           className='w-auto h-10 md:h-15'
-          src='src/assets/img/pokemon-memory-card.png'
+          src={pokemonCard}
           alt='Pokemon Memory Card'
         />
       </header>
